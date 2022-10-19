@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef, useState } from 'react'
+
 
 function App() {
+  const [positionX, setPositionX] = useState(0)
+  const [positionY, setPositionY] = useState(0)
+  const canvas = useRef<any>()
+  
+  function updateCanvas() {
+    const context = canvas.current.getContext('2d')
+    context.clearRect(0, 0, 600, 600)
+    
+    context.fillStyle = '#f33636'
+    context.fillRect(positionX, positionY, 30, 30)
+    
+    setPositionX(prev => prev + 30)
+    setPositionY(prev => prev)
+    // setPositionY(prev => prev + 30)
+  }
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateCanvas()
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [updateCanvas])
+  
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='w-full h-screen flex items-center justify-around'>
+      <canvas className='bg-gray-300 border-gray-900 border-2' ref={canvas} width='600' height='600' />
+      <button className='bg-emerald-400 px-4 py-2 rounded outline-0' onClick={updateCanvas}>Обновить</button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
