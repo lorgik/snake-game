@@ -23,8 +23,10 @@ function App() {
       const context = canvas.current.getContext('2d')
       context.clearRect(0, 0, fieldSize, fieldSize)
       
+      context.beginPath()
+      context.arc(foodPositionX + creatureSize / 2, foodPositionY + creatureSize / 2, creatureSize / 2, 0, 2 * Math.PI, false)
       context.fillStyle = '#2f96ff'
-      context.fillRect(foodPositionX, foodPositionY, creatureSize, creatureSize)
+      context.fill()
       
       for (let i = 0; i < snakeLength; i++) {
         context.fillStyle = '#ff8400'
